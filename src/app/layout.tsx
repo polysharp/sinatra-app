@@ -2,6 +2,13 @@ import type { Metadata } from 'next';
 
 import '@/styles/tailwind.css';
 
+import { AppSidebar } from '@/components/layout/app-sidebar';
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from '@/components/ui/sidebar';
+
 export const metadata: Metadata = {
   title: 'Sinatra',
   description: 'Sinatra optimized your website SEO',
@@ -15,8 +22,17 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className="dark">
-        <header className="fixed inset-x-0 top-0 z-40 h-16 border-b border-[#252525] bg-[#111111]" />
-        <main className="container pt-16">{children}</main>
+        <SidebarProvider>
+          <AppSidebar />
+
+          <SidebarInset>
+            <header className="flex h-16 shrink-0 items-center gap-2 border-b border-[#252525] bg-[#111111] px-4">
+              <SidebarTrigger className="-ml-1" />
+            </header>
+
+            <main>{children}</main>
+          </SidebarInset>
+        </SidebarProvider>
       </body>
     </html>
   );

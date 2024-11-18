@@ -25,30 +25,23 @@ export function CreateSiteForm() {
   };
 
   return (
-    <div className="mx-auto max-w-80">
-      <div className="flex flex-col gap-4">
-        <Input
-          type="text"
-          name="customerId"
-          placeholder="Customer id"
-          required
-        />
-        <Select value={domain} onValueChange={onDomainChange}>
-          <SelectTrigger>
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {DOMAINS.map((domain) => (
-              <SelectItem key={domain} value={domain}>
-                {domain}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <Input type="text" name="apiKey" placeholder="Api key" />
+    <div className="mt-4 flex gap-4 p-2">
+      <Input type="text" name="customerId" placeholder="Customer id" required />
+      <Select value={domain} onValueChange={onDomainChange}>
+        <SelectTrigger>
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {DOMAINS.map((domain) => (
+            <SelectItem key={domain} value={domain}>
+              {domain}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+      <Input type="text" name="apiKey" placeholder="Api key" />
 
-        <Button variant="default">Add new site</Button>
-      </div>
+      <Button variant="default">Add new site</Button>
     </div>
   );
 }
