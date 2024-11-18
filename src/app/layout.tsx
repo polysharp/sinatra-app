@@ -16,7 +16,7 @@ export default function RootLayout({
     <html lang="fr">
       <body className="dark">
         <header className="fixed inset-x-0 top-0 z-40 h-16 border-b border-[#252525] bg-[#111111]" />
-        <main className="pt-16">{children}</main>
+        <main className="container pt-16">{children}</main>
       </body>
     </html>
   );

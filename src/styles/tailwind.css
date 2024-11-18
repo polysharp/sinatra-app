@@ -69,6 +69,6 @@
   }
 
   body {
-    @apply overscroll-none bg-[#252525] text-white;
+    @apply overscroll-none bg-background text-foreground;
   }
 }
