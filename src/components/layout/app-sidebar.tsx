@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/sidebar';
 import { CustomerSwitcher } from './customer-switcher';
 
-export function AppSidebar() {
+export default function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader>
