@@ -1,4 +1,3 @@
-import { CreateSiteForm } from '@/components/forms/create-site-form';
 import {
   Table,
   TableBody,
@@ -53,8 +52,6 @@ export default async function Sites() {
           </TableBody>
         </Table>
       </div>
-
-      <CreateSiteForm />
     </div>
   );
 }
