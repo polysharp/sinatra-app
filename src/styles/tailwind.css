@@ -10,6 +10,6 @@
   }
 
   body {
-    @apply overscroll-none bg-[#121212] text-white;
+    @apply overscroll-none bg-[#252525] text-white;
   }
 }

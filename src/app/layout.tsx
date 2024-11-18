@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body>
-        <header className="sticky top-0 h-16 border-b border-[#414141] bg-[#1e1e1e]" />
+        <header className="fixed inset-x-0 top-0 z-40 h-16 border-b border-[#252525] bg-[#111111]" />
         <main>{children}</main>
       </body>
     </html>
