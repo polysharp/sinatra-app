@@ -12,14 +12,19 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { Workspace } from '@/interfaces';
 
 import { WorkspaceMenu } from './components';
 
-export default async function AppSidebar() {
+export default async function AppSidebar({
+  workspace,
+}: {
+  workspace: Workspace;
+}) {
   return (
     <Sidebar>
       <SidebarHeader>
-        <WorkspaceMenu />
+        <WorkspaceMenu workspace={workspace} />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
@@ -28,7 +33,7 @@ export default async function AppSidebar() {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href="/sites">
+                  <Link href={`/workspaces/${workspace.id}/sites`}>
                     <span>Sites</span>
                   </Link>
                 </SidebarMenuButton>
