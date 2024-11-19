@@ -12,13 +12,14 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { CustomerSwitcher } from './customer-switcher';
 
-export default function AppSidebar() {
+import { WorkspaceMenu } from './components';
+
+export default async function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader>
-        <CustomerSwitcher />
+        <WorkspaceMenu />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
