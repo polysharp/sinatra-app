@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import { getWorkspaces } from '@/api';
+import { CreateWorkspaceDialog } from '@/components/dialogs';
 
 export default async function Home() {
   const workspaces = await getWorkspaces();
@@ -15,6 +16,8 @@ export default async function Home() {
           </li>
         ))}
       </ul>
+
+      <CreateWorkspaceDialog />
     </div>
   );
 }
