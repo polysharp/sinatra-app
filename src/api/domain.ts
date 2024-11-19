@@ -4,7 +4,7 @@ const fakeDomains: Domain[] = [
   {
     id: '1',
     workspaceId: '0',
-    host: 'polysharp.fr',
+    name: 'polysharp.fr',
     verificationKey: 'sinatra-site-verification=abcde',
     verificationStatus: DomainVerificationStatus.VERIFIED,
     verifiedAt: new Date('2023-11-01'),
@@ -14,7 +14,7 @@ const fakeDomains: Domain[] = [
   {
     id: '2',
     workspaceId: '0',
-    host: 'example-workspace0.com',
+    name: 'example-workspace0.com',
     verificationKey: 'sinatra-site-verification=klmno',
     verificationStatus: DomainVerificationStatus.VERIFIED,
     verifiedAt: new Date('2023-11-15'),
@@ -24,7 +24,7 @@ const fakeDomains: Domain[] = [
   {
     id: '3',
     workspaceId: '0',
-    host: 'test-verified0.net',
+    name: 'test-verified0.net',
     verificationKey: 'sinatra-site-verification=verifiedkey0',
     verificationStatus: DomainVerificationStatus.VERIFIED,
     verifiedAt: new Date('2023-11-20'),
@@ -34,7 +34,7 @@ const fakeDomains: Domain[] = [
   {
     id: '4',
     workspaceId: '0',
-    host: 'pending-domain0.org',
+    name: 'pending-domain0.org',
     verificationKey: 'sinatra-site-verification=pending0',
     verificationStatus: DomainVerificationStatus.PENDING,
     verifiedAt: null,
@@ -44,7 +44,7 @@ const fakeDomains: Domain[] = [
   {
     id: '5',
     workspaceId: '0',
-    host: 'failed-domain0.com',
+    name: 'failed-domain0.com',
     verificationKey: 'sinatra-site-verification=failed0',
     verificationStatus: DomainVerificationStatus.FAILED,
     verifiedAt: null,
@@ -54,7 +54,7 @@ const fakeDomains: Domain[] = [
   {
     id: '6',
     workspaceId: '1',
-    host: 'yopta.life',
+    name: 'yopta.life',
     verificationKey: 'sinatra-site-verification=fghij',
     verificationStatus: DomainVerificationStatus.VERIFIED,
     verifiedAt: new Date('2023-11-01'),
@@ -64,7 +64,7 @@ const fakeDomains: Domain[] = [
   {
     id: '7',
     workspaceId: '1',
-    host: 'workspace1-verified.com',
+    name: 'workspace1-verified.com',
     verificationKey: 'sinatra-site-verification=verifiedkey1',
     verificationStatus: DomainVerificationStatus.VERIFIED,
     verifiedAt: new Date('2023-11-10'),
@@ -74,7 +74,7 @@ const fakeDomains: Domain[] = [
   {
     id: '8',
     workspaceId: '1',
-    host: 'test-verified1.net',
+    name: 'test-verified1.net',
     verificationKey: 'sinatra-site-verification=verifiedkey1-test',
     verificationStatus: DomainVerificationStatus.VERIFIED,
     verifiedAt: new Date('2023-11-18'),
@@ -84,7 +84,7 @@ const fakeDomains: Domain[] = [
   {
     id: '9',
     workspaceId: '1',
-    host: 'pending-domain1.org',
+    name: 'pending-domain1.org',
     verificationKey: 'sinatra-site-verification=pending1',
     verificationStatus: DomainVerificationStatus.PENDING,
     verifiedAt: null,
@@ -94,7 +94,7 @@ const fakeDomains: Domain[] = [
   {
     id: '10',
     workspaceId: '1',
-    host: 'failed-domain1.com',
+    name: 'failed-domain1.com',
     verificationKey: 'sinatra-site-verification=failed1',
     verificationStatus: DomainVerificationStatus.FAILED,
     verifiedAt: null,

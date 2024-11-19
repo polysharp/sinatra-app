@@ -65,7 +65,7 @@ export default function CreateSiteDialog({ domains }: { domains: Domain[] }) {
                         DomainVerificationStatus.VERIFIED
                       }
                     >
-                      {domain.host}
+                      {domain.name}
                     </SelectItem>
                   ))}
                 </SelectContent>

@@ -7,7 +7,7 @@ export enum DomainVerificationStatus {
 export interface Domain {
   id: string;
   workspaceId: string;
-  host: string;
+  name: string;
   verificationKey: string;
   verificationStatus: DomainVerificationStatus;
   verifiedAt: Date | null;
