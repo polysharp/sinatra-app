@@ -1,11 +1,6 @@
-'use client';
-
-import { useState } from 'react';
-
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -22,19 +17,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Domain, DomainVerificationStatus } from '@/interfaces';
 
-const DOMAINS = ['polysharp.fr', 'yopta.life'];
-
-export default function CreateSiteDialog() {
-  const [domain, setDomain] = useState<string>(DOMAINS[0]);
-
-  const onDomainChange = (value: string) => {
-    const targetDomain = DOMAINS.find((d) => d === value);
-    if (targetDomain) {
-      setDomain(targetDomain);
-    }
-  };
-
+export default function CreateSiteDialog({ domains }: { domains: Domain[] }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -66,14 +51,21 @@ export default function CreateSiteDialog() {
               <Label htmlFor="username" className="text-right">
                 Username
               </Label>
-              <Select value={domain} onValueChange={onDomainChange}>
+              <Select>
                 <SelectTrigger className="col-span-3">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {DOMAINS.map((domain) => (
-                    <SelectItem key={domain} value={domain}>
-                      {domain}
+                  {domains.map((domain) => (
+                    <SelectItem
+                      key={domain.id}
+                      value={domain.id}
+                      disabled={
+                        domain.verificationStatus !==
+                        DomainVerificationStatus.VERIFIED
+                      }
+                    >
+                      {domain.host}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -82,11 +74,6 @@ export default function CreateSiteDialog() {
           </div>
 
           <DialogFooter>
-            <DialogClose asChild>
-              <Button type="button" variant="secondary">
-                Close
-              </Button>
-            </DialogClose>
             <Button type="submit">Save changes</Button>
           </DialogFooter>
         </form>

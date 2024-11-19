@@ -1,5 +1,6 @@
-import { Workspace } from '@/interfaces';
 import { notFound } from 'next/navigation';
+
+import { Workspace } from '@/interfaces';
 
 const fakeWorkspaces: Workspace[] = [
   {
@@ -17,7 +18,7 @@ export async function getWorkspaces(): Promise<Workspace[]> {
 }
 
 export async function getWorkspace(workspaceId: string): Promise<Workspace> {
-  const workspace = fakeWorkspaces.find((fw) => `${fw.id}` === workspaceId);
+  const workspace = fakeWorkspaces.find((v) => `${v.id}` === workspaceId);
 
   if (!workspace) {
     throw notFound();

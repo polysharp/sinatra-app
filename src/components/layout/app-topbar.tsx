@@ -3,7 +3,7 @@ import { Separator } from '@radix-ui/react-separator';
 
 export default function AppTopbar({ children }: { children: React.ReactNode }) {
   return (
-    <header className="flex h-16 shrink-0 items-center gap-2 border-b border-[#252525] bg-[#111111] px-4">
+    <header className="sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b border-[#252525] bg-[#111111] px-4">
       <SidebarTrigger className="-ml-1" />
       <Separator
         orientation="vertical"

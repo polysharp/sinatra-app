@@ -1,5 +1,6 @@
-import { getWorkspaces } from '@/api';
 import Link from 'next/link';
+
+import { getWorkspaces } from '@/api';
 
 export default async function Home() {
   const workspaces = await getWorkspaces();
