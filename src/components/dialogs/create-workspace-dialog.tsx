@@ -1,7 +1,10 @@
+'use client';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -9,10 +12,35 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+const formSchema = z.object({
+  name: z.string().min(2).max(50),
+});
+
+type FormSchema = z.infer<typeof formSchema>;
 
 export default function CreateWorkspaceDialog() {
+  const form = useForm<FormSchema>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: '',
+    },
+  });
+
+  const onSubmit = (values: FormSchema) => {
+    console.log(values);
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -27,40 +55,29 @@ export default function CreateWorkspaceDialog() {
           </DialogDescription>
         </DialogHeader>
 
-        <form>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="name" className="text-right">
-                Name
-              </Label>
-              <Input
-                id="name"
-                defaultValue="Pedro Duarte"
-                className="col-span-3"
-              />
-            </div>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <FormLabel>Name</FormLabel>
+                    <FormControl className="col-span-3">
+                      <Input placeholder="example.com" {...field} />
+                    </FormControl>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="username" className="text-right">
-                Username
-              </Label>
-              <Input
-                id="username"
-                defaultValue="@peduarte"
-                className="col-span-3"
-              />
-            </div>
-          </div>
-
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button type="button" variant="secondary">
-                Close
-              </Button>
-            </DialogClose>
-            <Button type="submit">Save changes</Button>
-          </DialogFooter>
-        </form>
+            <DialogFooter>
+              <Button type="submit">Create workspace</Button>
+            </DialogFooter>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );

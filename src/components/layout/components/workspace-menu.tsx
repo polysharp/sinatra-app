@@ -1,4 +1,4 @@
-import { ChevronsUpDown, Command, Plus, Undo2 } from 'lucide-react';
+import { ChevronsUpDown, Command, Undo2 } from 'lucide-react';
 import Link from 'next/link';
 
 import {
@@ -54,15 +54,6 @@ export default async function WorkspaceMenu({
             {/* Dropdown menu links here */}
 
             <DropdownMenuSeparator />
-
-            <DropdownMenuItem className="gap-2 p-2">
-              <div className="flex size-6 items-center justify-center rounded-md border bg-background">
-                <Plus className="size-4" />
-              </div>
-              <div className="font-medium text-muted-foreground">
-                Create new workspace
-              </div>
-            </DropdownMenuItem>
 
             <DropdownMenuItem className="gap-2 p-2">
               <Link href="/workspaces" className="flex items-center gap-2">
