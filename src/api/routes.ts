@@ -1,5 +1,3 @@
-import { notFound } from 'next/navigation';
-
 import {
   Domain,
   DomainVerificationStatus,
@@ -25,22 +23,16 @@ export async function getWorkspaces(): Promise<Workspace[]> {
 }
 
 export async function getWorkspace(workspaceId: string): Promise<Workspace> {
-  const workspace = [
-    {
-      id: 0,
-      name: 'Polysharp',
+  const response = await serverClient(`/workspaces/${workspaceId}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
     },
-    {
-      id: 1,
-      name: 'Yopta',
-    },
-  ].find((v) => `${v.id}` === workspaceId);
+    next: { tags: [`/workspaces/${workspaceId}`] },
+  });
 
-  if (!workspace) {
-    throw notFound();
-  }
-
-  return Promise.resolve<Workspace>(workspace);
+  const data = await response.json();
+  return data as Workspace;
 }
 
 export async function createWorkspace(
