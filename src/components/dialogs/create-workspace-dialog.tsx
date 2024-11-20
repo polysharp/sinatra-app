@@ -2,12 +2,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import {
-  CreateWorkspace,
-  createWorkspace,
-  createWorkspaceSchema,
-  revalidateWorkspaces,
-} from '@/api';
+import { CreateWorkspace, createWorkspace, createWorkspaceSchema } from '@/api';
 import {
   Button,
   Dialog,
@@ -39,8 +34,6 @@ export default function CreateWorkspaceDialog() {
   const onSubmit = async (values: CreateWorkspace) => {
     try {
       await createWorkspace(values);
-      await revalidateWorkspaces();
-
       setOpen(false);
     } catch (err) {
       console.error(err);
