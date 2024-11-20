@@ -1,4 +1,73 @@
-import { Domain, DomainVerificationStatus } from '@/interfaces';
+import { notFound } from 'next/navigation';
+
+import {
+  Domain,
+  DomainVerificationStatus,
+  Site,
+  Workspace,
+} from '@/interfaces';
+
+import httpClient from './clients/browserClient';
+import serverClient from './clients/serverClient';
+import { CreateWorkspace } from './schemas';
+
+export async function getWorkspaces(): Promise<Workspace[]> {
+  const response = await serverClient('/workspaces', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    next: { tags: ['workspaces'] },
+  });
+
+  const data = await response.json();
+  return data as Workspace[];
+}
+
+export async function getWorkspace(workspaceId: string): Promise<Workspace> {
+  const workspace = [
+    {
+      id: 0,
+      name: 'Polysharp',
+    },
+    {
+      id: 1,
+      name: 'Yopta',
+    },
+  ].find((v) => `${v.id}` === workspaceId);
+
+  if (!workspace) {
+    throw notFound();
+  }
+
+  return Promise.resolve<Workspace>(workspace);
+}
+
+export async function createWorkspace(
+  payload: CreateWorkspace,
+): Promise<Workspace> {
+  const response = await httpClient('/workspaces', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  });
+
+  const data = await response.json();
+  return data as Workspace;
+}
+
+export async function getSites(): Promise<Site[]> {
+  return Promise.resolve<Site[]>([
+    {
+      id: 0,
+      domain: 'polysharp.fr',
+      apiKey: '0101-abcde-0101',
+      status: 'pending',
+    },
+  ]);
+}
 
 const fakeDomains: Domain[] = [
   {

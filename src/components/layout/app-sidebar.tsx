@@ -11,7 +11,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from '@/components/ui/sidebar';
+} from '@/components/ui';
 import { Workspace } from '@/interfaces';
 
 import { WorkspaceMenu } from './components';

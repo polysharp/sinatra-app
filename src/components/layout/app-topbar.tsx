@@ -1,4 +1,4 @@
-import { SidebarTrigger } from '@/components/ui/sidebar';
+import { SidebarTrigger } from '@/components/ui';
 import { Separator } from '@radix-ui/react-separator';
 
 export default function AppTopbar({ children }: { children: React.ReactNode }) {

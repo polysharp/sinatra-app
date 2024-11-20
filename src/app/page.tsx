@@ -8,7 +8,6 @@ export default async function Home() {
 
   return (
     <div>
-      <h2 className="text-sm">Page</h2>
       <ul>
         {workspaces.map((workspace) => (
           <li key={workspace.id}>

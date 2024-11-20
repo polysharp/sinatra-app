@@ -1,9 +1,15 @@
 'use client';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 
-import { Button } from '@/components/ui/button';
 import {
+  CreateWorkspace,
+  createWorkspace,
+  createWorkspaceSchema,
+  revalidateWorkspaces,
+} from '@/api';
+import {
+  Button,
   Dialog,
   DialogContent,
   DialogDescription,
@@ -11,38 +17,38 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+  Input,
+} from '@/components/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-const formSchema = z.object({
-  name: z.string().min(2).max(50),
-});
-
-type FormSchema = z.infer<typeof formSchema>;
-
 export default function CreateWorkspaceDialog() {
-  const form = useForm<FormSchema>({
-    resolver: zodResolver(formSchema),
+  const [open, setOpen] = useState(false);
+  const form = useForm<CreateWorkspace>({
+    resolver: zodResolver(createWorkspaceSchema),
     defaultValues: {
       name: '',
     },
   });
 
-  const onSubmit = (values: FormSchema) => {
-    console.log(values);
+  const onSubmit = async (values: CreateWorkspace) => {
+    try {
+      await createWorkspace(values);
+      await revalidateWorkspaces();
+
+      setOpen(false);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline">New workspace</Button>
       </DialogTrigger>

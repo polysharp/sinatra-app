@@ -1,7 +1,7 @@
 import { getDomains, getWorkspace } from '@/api';
 import { CreateDomainDialog, CreateSiteDialog } from '@/components/dialogs';
 import { AppSidebar, AppTopbar } from '@/components/layout';
-import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
+import { SidebarInset, SidebarProvider } from '@/components/ui';
 
 export default async function WorkspaceLayout({
   children,
