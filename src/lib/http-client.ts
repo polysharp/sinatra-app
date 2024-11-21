@@ -9,7 +9,7 @@ export default async function httpClient(
   options: RequestInit,
 ): Promise<Response> {
   const cookieStore = await cookies();
-  const jwtToken = cookieStore.get('jwt');
+  const jwtToken = cookieStore.get('session');
   const token = jwtToken?.value;
 
   const response = await fetch(`${baseURL}${url}`, {
