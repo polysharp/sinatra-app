@@ -1,7 +1,7 @@
 export enum DomainVerificationStatus {
-  PENDING,
-  VERIFIED,
-  FAILED,
+  PENDING = 'PENDING',
+  VERIFIED = 'VERIFIED',
+  FAILED = 'FAILED',
 }
 
 export interface Domain {

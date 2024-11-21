@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use server';
 
 import { revalidateTag } from 'next/cache';
@@ -8,7 +7,9 @@ import { httpClient } from '@/lib';
 
 import { CreateWorkspace } from './schemas';
 
-export async function createWorkspace(values: CreateWorkspace) {
+export async function createWorkspace(
+  values: CreateWorkspace,
+): Promise<Workspace> {
   const response = await httpClient('/workspaces', {
     method: 'POST',
     headers: {
@@ -17,11 +18,11 @@ export async function createWorkspace(values: CreateWorkspace) {
     body: JSON.stringify(values),
   });
 
-  const workspace = await response.json();
+  const data = await response.json();
 
   revalidateTag('workspaces');
 
-  return workspace;
+  return data as Workspace;
 }
 
 export async function getWorkspaces(): Promise<Workspace[]> {

@@ -1,20 +1,52 @@
+'use client';
+
+import { useParams } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+
+import { CreateDomain, createDomain, createDomainSchema } from '@/api';
 import {
   Button,
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
   Input,
-  Label,
 } from '@/components/ui';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
 
-export default function CreateDomainDialog() {
+export default function CreateWorkspaceDialog() {
+  const [open, setOpen] = useState<boolean>(false);
+  const { workspaceId } = useParams<{ workspaceId: string }>();
+
+  const form = useForm<CreateDomain>({
+    resolver: zodResolver(createDomainSchema),
+    defaultValues: {
+      name: '',
+      workspaceId,
+    },
+  });
+
+  const onSubmit = async (values: CreateDomain) => {
+    try {
+      await createDomain(values);
+      setOpen(false);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline">New domain</Button>
       </DialogTrigger>
@@ -28,40 +60,29 @@ export default function CreateDomainDialog() {
           </DialogDescription>
         </DialogHeader>
 
-        <form>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="name" className="text-right">
-                Name
-              </Label>
-              <Input
-                id="name"
-                defaultValue="Pedro Duarte"
-                className="col-span-3"
-              />
-            </div>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <FormLabel>Name</FormLabel>
+                    <FormControl className="col-span-3">
+                      <Input placeholder="example.com" {...field} />
+                    </FormControl>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="username" className="text-right">
-                Username
-              </Label>
-              <Input
-                id="username"
-                defaultValue="@peduarte"
-                className="col-span-3"
-              />
-            </div>
-          </div>
-
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button type="button" variant="secondary">
-                Close
-              </Button>
-            </DialogClose>
-            <Button type="submit">Save changes</Button>
-          </DialogFooter>
-        </form>
+            <DialogFooter>
+              <Button type="submit">Create domain</Button>
+            </DialogFooter>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );

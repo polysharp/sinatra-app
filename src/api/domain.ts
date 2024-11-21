@@ -1,110 +1,45 @@
-import { Domain, DomainVerificationStatus } from '@/interfaces';
+'use server';
 
-const fakeDomains: Domain[] = [
-  {
-    id: '1',
-    workspaceId: '0',
-    name: 'polysharp.fr',
-    verificationKey: 'sinatra-site-verification=abcde',
-    verificationStatus: DomainVerificationStatus.VERIFIED,
-    verifiedAt: new Date('2023-11-01'),
-    updatedAt: new Date(),
-    createdAt: new Date('2023-10-25'),
-  },
-  {
-    id: '2',
-    workspaceId: '0',
-    name: 'example-workspace0.com',
-    verificationKey: 'sinatra-site-verification=klmno',
-    verificationStatus: DomainVerificationStatus.VERIFIED,
-    verifiedAt: new Date('2023-11-15'),
-    updatedAt: new Date(),
-    createdAt: new Date('2023-11-10'),
-  },
-  {
-    id: '3',
-    workspaceId: '0',
-    name: 'test-verified0.net',
-    verificationKey: 'sinatra-site-verification=verifiedkey0',
-    verificationStatus: DomainVerificationStatus.VERIFIED,
-    verifiedAt: new Date('2023-11-20'),
-    updatedAt: new Date(),
-    createdAt: new Date('2023-11-18'),
-  },
-  {
-    id: '4',
-    workspaceId: '0',
-    name: 'pending-domain0.org',
-    verificationKey: 'sinatra-site-verification=pending0',
-    verificationStatus: DomainVerificationStatus.PENDING,
-    verifiedAt: null,
-    updatedAt: new Date(),
-    createdAt: new Date('2023-11-19'),
-  },
-  {
-    id: '5',
-    workspaceId: '0',
-    name: 'failed-domain0.com',
-    verificationKey: 'sinatra-site-verification=failed0',
-    verificationStatus: DomainVerificationStatus.FAILED,
-    verifiedAt: null,
-    updatedAt: new Date(),
-    createdAt: new Date('2023-11-15'),
-  },
-  {
-    id: '6',
-    workspaceId: '1',
-    name: 'yopta.life',
-    verificationKey: 'sinatra-site-verification=fghij',
-    verificationStatus: DomainVerificationStatus.VERIFIED,
-    verifiedAt: new Date('2023-11-01'),
-    updatedAt: new Date(),
-    createdAt: new Date('2023-10-25'),
-  },
-  {
-    id: '7',
-    workspaceId: '1',
-    name: 'workspace1-verified.com',
-    verificationKey: 'sinatra-site-verification=verifiedkey1',
-    verificationStatus: DomainVerificationStatus.VERIFIED,
-    verifiedAt: new Date('2023-11-10'),
-    updatedAt: new Date(),
-    createdAt: new Date('2023-11-08'),
-  },
-  {
-    id: '8',
-    workspaceId: '1',
-    name: 'test-verified1.net',
-    verificationKey: 'sinatra-site-verification=verifiedkey1-test',
-    verificationStatus: DomainVerificationStatus.VERIFIED,
-    verifiedAt: new Date('2023-11-18'),
-    updatedAt: new Date(),
-    createdAt: new Date('2023-11-15'),
-  },
-  {
-    id: '9',
-    workspaceId: '1',
-    name: 'pending-domain1.org',
-    verificationKey: 'sinatra-site-verification=pending1',
-    verificationStatus: DomainVerificationStatus.PENDING,
-    verifiedAt: null,
-    updatedAt: new Date(),
-    createdAt: new Date('2023-11-19'),
-  },
-  {
-    id: '10',
-    workspaceId: '1',
-    name: 'failed-domain1.com',
-    verificationKey: 'sinatra-site-verification=failed1',
-    verificationStatus: DomainVerificationStatus.FAILED,
-    verifiedAt: null,
-    updatedAt: new Date(),
-    createdAt: new Date('2023-11-12'),
-  },
-];
+import { revalidateTag } from 'next/cache';
+
+import { Domain } from '@/interfaces';
+import { httpClient } from '@/lib';
+
+import { CreateDomain } from './schemas';
+
+export async function createDomain(values: CreateDomain): Promise<Domain> {
+  const response = await httpClient('/domains', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(values),
+  });
+
+  const data = await response.json();
+
+  revalidateTag('domains');
+
+  return data as Domain;
+}
 
 export async function getDomains(workspaceId: string): Promise<Domain[]> {
-  return Promise.resolve<Domain[]>(
-    fakeDomains.filter((v) => `${v.workspaceId}` === workspaceId),
-  );
+  const response = await httpClient(`/domains?workspaceId=${workspaceId}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    next: {
+      tags: ['domains'],
+    },
+  });
+
+  const data = await response.json();
+  return data as Domain[];
+}
+
+export async function verifyDomain(domainId: string): Promise<boolean> {
+  console.log({ domainId });
+  revalidateTag('domains');
+  return Promise.resolve(true);
 }
