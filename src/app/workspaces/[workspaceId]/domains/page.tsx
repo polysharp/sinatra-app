@@ -1,6 +1,8 @@
 import { getDomains } from '@/api';
+
 import {
   Badge,
+  Switch,
   Table,
   TableBody,
   TableCell,
@@ -8,9 +10,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui';
-import VerifyDomainButton from '@/components/VerifyDomainButton';
-import { DomainVerificationStatus } from '@/interfaces';
 import { statusToVariant } from '@/lib';
+import { DomainActions, DomainToggle } from './components';
 
 export default async function Domains({
   params,
@@ -24,35 +25,41 @@ export default async function Domains({
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Id</TableHead>
           <TableHead>Domain</TableHead>
           <TableHead>Status</TableHead>
-          <TableHead>Actions</TableHead>
+          <TableHead>Created At</TableHead>
+          <TableHead>Active</TableHead>
+          <TableHead />
         </TableRow>
       </TableHeader>
       <TableBody>
-        {domains.map((domain) => (
-          <TableRow key={domain.id}>
-            <TableCell>{domain.name}</TableCell>
-            <TableCell>{domain.verificationKey}</TableCell>
-            <TableCell>
-              <Badge
-                variant={statusToVariant(domain.verificationStatus)}
-                className="capitalize"
-              >
-                {domain.verificationStatus}
-              </Badge>
-            </TableCell>
-            <TableCell>
-              {domain.verificationStatus ===
-              DomainVerificationStatus.VERIFIED ? (
-                <div className="h-10 w-10" />
-              ) : (
-                <VerifyDomainButton domainId={domain.id} />
-              )}
-            </TableCell>
-          </TableRow>
-        ))}
+        {domains
+          .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+          .map((domain) => (
+            <TableRow key={domain.id}>
+              <TableCell>
+                <Badge variant={'outline'}>{domain.name}</Badge>
+              </TableCell>
+
+              <TableCell>
+                <Badge variant={statusToVariant(domain.verificationStatus)}>
+                  {domain.verificationStatus}
+                </Badge>
+              </TableCell>
+
+              <TableCell>
+                {new Date(domain.createdAt).toLocaleString('fr-FR')}
+              </TableCell>
+
+              <TableCell>
+                <DomainToggle domain={domain} />
+              </TableCell>
+
+              <TableCell>
+                <DomainActions domain={domain} />
+              </TableCell>
+            </TableRow>
+          ))}
       </TableBody>
     </Table>
   );

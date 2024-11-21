@@ -10,7 +10,7 @@ export interface Domain {
   name: string;
   verificationKey: string;
   verificationStatus: DomainVerificationStatus;
-  verifiedAt: Date | null;
-  createdAt: Date;
-  updatedAt: Date;
+  verifiedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
 }

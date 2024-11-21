@@ -38,8 +38,13 @@ export async function getDomains(workspaceId: string): Promise<Domain[]> {
   return data as Domain[];
 }
 
-export async function verifyDomain(domainId: string): Promise<boolean> {
-  console.log({ domainId });
+export async function verifyDomain(domainId: string) {
+  await httpClient(`/domains/${domainId}/verify`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
   revalidateTag('domains');
-  return Promise.resolve(true);
 }
