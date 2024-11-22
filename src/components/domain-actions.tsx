@@ -13,7 +13,11 @@ export default function DomainActions({ domain }: { domain: Domain }) {
   }, [domain]);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(domain.verificationKey);
+    try {
+      navigator.clipboard.writeText(domain.verificationKey);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const handleVerify = async () => {
@@ -37,6 +41,7 @@ export default function DomainActions({ domain }: { domain: Domain }) {
       <Button size={'icon'} variant={'ghost'} onClick={handleCopy}>
         <Clipboard />
       </Button>
+
       <Button
         size={'icon'}
         variant={'ghost'}
@@ -45,6 +50,7 @@ export default function DomainActions({ domain }: { domain: Domain }) {
       >
         <RefreshCcw />
       </Button>
+
       <Button size={'icon'} variant={'ghost'} onClick={handleRemove}>
         <Trash2 />
       </Button>

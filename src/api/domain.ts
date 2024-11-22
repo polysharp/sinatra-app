@@ -3,8 +3,8 @@
 import { revalidateTag } from 'next/cache';
 
 import { Domain } from '@/interfaces';
-import { httpClient } from '@/lib';
 
+import httpClient from './client';
 import { CreateDomain } from './schemas';
 
 export async function createDomain(values: CreateDomain): Promise<Domain> {

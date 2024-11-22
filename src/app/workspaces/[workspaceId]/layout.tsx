@@ -12,8 +12,13 @@ export default async function WorkspaceLayout({
 }) {
   const workspaceId = (await params).workspaceId;
 
-  const workspace = await getWorkspace(workspaceId);
-  const domains = await getDomains(workspaceId);
+  const workspaceFetch = getWorkspace(workspaceId);
+  const domainsFetch = getDomains(workspaceId);
+
+  const [workspace, domains] = await Promise.all([
+    workspaceFetch,
+    domainsFetch,
+  ]);
 
   return (
     <SidebarProvider>
@@ -21,7 +26,7 @@ export default async function WorkspaceLayout({
 
       <SidebarInset>
         <AppTopbar>
-          <div>Topbar</div>
+          <div />
           <div className="flex items-center justify-center gap-2">
             <CreateDomainDialog />
             <CreateSiteDialog domains={domains} />

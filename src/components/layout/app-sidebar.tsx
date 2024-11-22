@@ -33,6 +33,15 @@ export default async function AppSidebar({
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
+                  <Link href={`/workspaces/${workspace.id}`}>
+                    <span>Dashboard</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
                   <Link href={`/workspaces/${workspace.id}/domains`}>
                     <span>Domains</span>
                   </Link>

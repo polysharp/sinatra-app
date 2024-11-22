@@ -1,8 +1,7 @@
 import { getDomains } from '@/api';
-
+import { DomainActions, DomainToggle } from '@/components';
 import {
   Badge,
-  Switch,
   Table,
   TableBody,
   TableCell,
@@ -10,8 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui';
-import { statusToVariant } from '@/lib';
-import { DomainActions, DomainToggle } from './components';
+import { newestToOldest, statusToVariant, strToLocaleStr } from '@/lib';
 
 export default async function Domains({
   params,
@@ -19,6 +17,7 @@ export default async function Domains({
   params: Promise<{ workspaceId: string }>;
 }) {
   const workspaceId = (await params).workspaceId;
+
   const domains = await getDomains(workspaceId);
 
   return (
@@ -33,33 +32,29 @@ export default async function Domains({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {domains
-          .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
-          .map((domain) => (
-            <TableRow key={domain.id}>
-              <TableCell>
-                <Badge variant={'outline'}>{domain.name}</Badge>
-              </TableCell>
+        {domains.sort(newestToOldest('createdAt')).map((domain) => (
+          <TableRow key={domain.id}>
+            <TableCell>
+              <Badge variant={'outline'}>{domain.name}</Badge>
+            </TableCell>
 
-              <TableCell>
-                <Badge variant={statusToVariant(domain.verificationStatus)}>
-                  {domain.verificationStatus}
-                </Badge>
-              </TableCell>
+            <TableCell>
+              <Badge variant={statusToVariant(domain.verificationStatus)}>
+                {domain.verificationStatus}
+              </Badge>
+            </TableCell>
 
-              <TableCell>
-                {new Date(domain.createdAt).toLocaleString('fr-FR')}
-              </TableCell>
+            <TableCell>{strToLocaleStr(domain.createdAt)}</TableCell>
 
-              <TableCell>
-                <DomainToggle domain={domain} />
-              </TableCell>
+            <TableCell>
+              <DomainToggle domain={domain} />
+            </TableCell>
 
-              <TableCell>
-                <DomainActions domain={domain} />
-              </TableCell>
-            </TableRow>
-          ))}
+            <TableCell>
+              <DomainActions domain={domain} />
+            </TableCell>
+          </TableRow>
+        ))}
       </TableBody>
     </Table>
   );

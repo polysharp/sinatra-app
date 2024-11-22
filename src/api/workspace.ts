@@ -3,8 +3,8 @@
 import { revalidateTag } from 'next/cache';
 
 import { Workspace } from '@/interfaces';
-import { httpClient } from '@/lib';
 
+import httpClient from './client';
 import { CreateWorkspace } from './schemas';
 
 export async function createWorkspace(
