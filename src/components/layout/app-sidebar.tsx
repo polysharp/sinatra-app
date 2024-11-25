@@ -1,3 +1,4 @@
+import { AppWindowMac, Globe, LayoutDashboard } from 'lucide-react';
 import Link from 'next/link';
 
 import {
@@ -6,15 +7,36 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarTrigger,
 } from '@/components/ui';
 import { Workspace } from '@/interfaces';
 
 import { WorkspaceMenu } from './components';
+
+const navigation = [
+  {
+    tooltip: 'Dashboard',
+    icon: LayoutDashboard,
+    label: 'Dashboard',
+    link: (workspaceId: number) => `/workspaces/${workspaceId}`,
+  },
+  {
+    tooltip: 'Sites',
+    icon: AppWindowMac,
+    label: 'Sites',
+    link: (workspaceId: number) => `/workspaces/${workspaceId}/sites`,
+  },
+  {
+    tooltip: 'Domains',
+    icon: Globe,
+    label: 'Domains',
+    link: (workspaceId: number) => `/workspaces/${workspaceId}/domains`,
+  },
+];
 
 export default async function AppSidebar({
   workspace,
@@ -22,41 +44,31 @@ export default async function AppSidebar({
   workspace: Workspace;
 }) {
   return (
-    <Sidebar>
+    <Sidebar variant="floating" collapsible="icon">
       <SidebarHeader>
-        <WorkspaceMenu workspace={workspace} />
+        <SidebarTrigger />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Workspace</SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href={`/workspaces/${workspace.id}`}>
-                    <span>Dashboard</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href={`/workspaces/${workspace.id}/domains`}>
-                    <span>Domains</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href={`/workspaces/${workspace.id}/sites`}>
-                    <span>Sites</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
+            <WorkspaceMenu workspace={workspace} />
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupContent>
+            {navigation.map((item) => (
+              <SidebarMenu key={item.label}>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild tooltip={item.tooltip}>
+                    <Link href={item.link(workspace.id)}>
+                      <item.icon />
+                      <span>{item.label}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            ))}
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
