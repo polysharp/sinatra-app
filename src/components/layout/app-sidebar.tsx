@@ -11,11 +11,11 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarTrigger,
 } from '@/components/ui';
 import { Workspace } from '@/interfaces';
 
-import { WorkspaceMenu } from './components';
+import { UserMenu, WorkspaceMenu } from './components';
+import UpdagradeCard from './components/upgrade-card';
 
 const navigation = [
   {
@@ -46,15 +46,10 @@ export default async function AppSidebar({
   return (
     <Sidebar variant="floating" collapsible="icon">
       <SidebarHeader>
-        <SidebarTrigger />
+        <WorkspaceMenu workspace={workspace} />
       </SidebarHeader>
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <WorkspaceMenu workspace={workspace} />
-          </SidebarGroupContent>
-        </SidebarGroup>
 
+      <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
             {navigation.map((item) => (
@@ -72,7 +67,17 @@ export default async function AppSidebar({
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter />
+
+      <SidebarFooter>
+        <UpdagradeCard />
+        <UserMenu
+          user={{
+            avatar: 'https://github.com/shadcn.png',
+            email: 'john@doe.com',
+            name: 'John Doe',
+          }}
+        />
+      </SidebarFooter>
     </Sidebar>
   );
 }

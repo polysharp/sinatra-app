@@ -16,7 +16,7 @@ export default async function WorkspaceLayout({
     <SidebarProvider>
       <AppSidebar workspace={workspace} />
 
-      <SidebarInset className="py-2 pl-1 pr-3">
+      <SidebarInset className="px-3 py-2">
         <AppTopbar>
           <div />
           <div className="flex items-center justify-center gap-2">
@@ -24,7 +24,7 @@ export default async function WorkspaceLayout({
           </div>
         </AppTopbar>
 
-        {children}
+        <div className="mx-auto w-full max-w-screen-2xl">{children}</div>
       </SidebarInset>
     </SidebarProvider>
   );
