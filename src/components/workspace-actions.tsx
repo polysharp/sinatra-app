@@ -3,20 +3,24 @@
 import { AppWindowMac, Globe, Key, Users } from 'lucide-react';
 import { useState } from 'react';
 
-import { Domain } from '@/interfaces';
+import { ApiKey, Domain } from '@/interfaces';
 import { cn } from '@/lib';
 
-import CreateDomainDialog from './create-domain-dialog';
-import CreateSiteDialog from './create-site-dialog';
+import ApiKeyDialog from './api-key-dialog';
+import DomainDialog from './domain-dialog';
+import SiteDialog from './site-dialog';
 
 export default function WorkspaceActions({
   workspaceId,
   workspaceDomains,
+  workspaceApiKeys,
 }: {
   workspaceId: string;
   workspaceDomains: Domain[];
+  workspaceApiKeys: ApiKey[];
 }) {
   const [domainDialogOpen, setDomainDialogOpen] = useState<boolean>(false);
+  const [keysDialogOpen, setKeysDialogOpen] = useState<boolean>(false);
   const [siteDialogOpen, setSiteDialogOpen] = useState<boolean>(false);
 
   return (
@@ -25,7 +29,7 @@ export default function WorkspaceActions({
         {[
           {
             key: '0',
-            label: 'Create domain',
+            label: 'Manage domains',
             subLabel: 'for your workspace',
             icon: Globe,
             iconColor: 'bg-blue-100',
@@ -33,15 +37,15 @@ export default function WorkspaceActions({
           },
           {
             key: '1',
-            label: 'Create API Key',
+            label: 'Manage keys',
             subLabel: 'secure for integrations',
             icon: Key,
             iconColor: 'bg-yellow-100',
-            handler: () => {},
+            handler: setKeysDialogOpen,
           },
           {
             key: '2',
-            label: 'Create site',
+            label: 'Manage sites',
             subLabel: 'from a template or from scratch',
             icon: AppWindowMac,
             iconColor: 'bg-green-100',
@@ -79,12 +83,19 @@ export default function WorkspaceActions({
         ))}
       </div>
 
-      <CreateDomainDialog
+      <DomainDialog
         workspaceId={workspaceId}
+        workspaceDomains={workspaceDomains}
         open={domainDialogOpen}
         setOpen={setDomainDialogOpen}
       />
-      <CreateSiteDialog
+      <ApiKeyDialog
+        workspaceId={workspaceId}
+        workspaceApiKeys={workspaceApiKeys}
+        open={keysDialogOpen}
+        setOpen={setKeysDialogOpen}
+      />
+      <SiteDialog
         workspaceDomains={workspaceDomains}
         open={siteDialogOpen}
         setOpen={setSiteDialogOpen}

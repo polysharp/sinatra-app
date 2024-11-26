@@ -12,3 +12,11 @@ export const createDomainSchema = z.object({
 });
 
 export type CreateDomain = z.infer<typeof createDomainSchema>;
+
+export const createApiKeySchema = z.object({
+  name: z.string().min(2),
+  value: z.string().min(2),
+  workspaceId: z.string().cuid2(),
+});
+
+export type CreateApiKey = z.infer<typeof createApiKeySchema>;
