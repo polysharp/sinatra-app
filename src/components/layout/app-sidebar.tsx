@@ -44,7 +44,7 @@ export default async function AppSidebar({
   workspace: Workspace;
 }) {
   return (
-    <Sidebar variant="floating" collapsible="icon">
+    <Sidebar collapsible="icon" className='border-sidebar-border'>
       <SidebarHeader>
         <WorkspaceMenu workspace={workspace} />
       </SidebarHeader>

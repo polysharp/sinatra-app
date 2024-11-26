@@ -1,12 +1,7 @@
+'use client';
+
 import {
   Button,
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
   Input,
   Label,
   Select,
@@ -14,25 +9,36 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
 } from '@/components/ui';
 import { Domain, DomainVerificationStatus } from '@/interfaces';
 
-export default function CreateSiteDialog({ domains }: { domains: Domain[] }) {
+export default function CreateSiteDialog({
+  workspaceDomains,
+  open,
+  setOpen,
+}: {
+  workspaceDomains: Domain[];
+  open: boolean;
+  setOpen: (open: boolean) => void;
+}) {
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline">New site</Button>
-      </DialogTrigger>
-
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Create a new site</DialogTitle>
-          <DialogDescription>
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetContent>
+        <SheetHeader>
+          <SheetTitle>Create a new site</SheetTitle>
+          <SheetDescription>
             Create a new site to start measuring seo performance
-          </DialogDescription>
-        </DialogHeader>
+          </SheetDescription>
+        </SheetHeader>
 
-        <form>
+        <form className="space-y-4 py-4">
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="name" className="text-right">
@@ -54,7 +60,7 @@ export default function CreateSiteDialog({ domains }: { domains: Domain[] }) {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {domains.map((domain) => (
+                  {workspaceDomains.map((domain) => (
                     <SelectItem
                       key={domain.id}
                       value={domain.id}
@@ -71,11 +77,13 @@ export default function CreateSiteDialog({ domains }: { domains: Domain[] }) {
             </div>
           </div>
 
-          <DialogFooter>
-            <Button type="submit">Save changes</Button>
-          </DialogFooter>
+          <SheetFooter>
+            <SheetClose asChild>
+              <Button type="submit">Save changes</Button>
+            </SheetClose>
+          </SheetFooter>
         </form>
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet>
   );
 }

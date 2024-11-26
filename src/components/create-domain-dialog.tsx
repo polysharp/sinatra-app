@@ -1,18 +1,10 @@
 'use client';
 
-import { useParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
 import { CreateDomain, createDomain, createDomainSchema } from '@/api';
 import {
   Button,
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
   Form,
   FormControl,
   FormField,
@@ -20,14 +12,25 @@ import {
   FormLabel,
   FormMessage,
   Input,
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
 } from '@/components/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
 
-export default function CreateWorkspaceDialog() {
-  const [open, setOpen] = useState<boolean>(false);
-  const { workspaceId } = useParams<{ workspaceId: string }>();
-
+export default function CreateDomainDialog({
+  workspaceId,
+  open,
+  setOpen,
+}: {
+  workspaceId: string;
+  open: boolean;
+  setOpen: (open: boolean) => void;
+}) {
   const form = useForm<CreateDomain>({
     resolver: zodResolver(createDomainSchema),
     defaultValues: {
@@ -46,22 +49,21 @@ export default function CreateWorkspaceDialog() {
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline">New domain</Button>
-      </DialogTrigger>
-
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Add a new domain</DialogTitle>
-          <DialogDescription>
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetContent>
+        <SheetHeader>
+          <SheetTitle>Add a new domain</SheetTitle>
+          <SheetDescription>
             Register your domain to your workspace so you can use it for new
             sites
-          </DialogDescription>
-        </DialogHeader>
+          </SheetDescription>
+        </SheetHeader>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-4 py-4"
+          >
             <FormField
               control={form.control}
               name="name"
@@ -78,12 +80,14 @@ export default function CreateWorkspaceDialog() {
               )}
             />
 
-            <DialogFooter>
-              <Button type="submit">Create domain</Button>
-            </DialogFooter>
+            <SheetFooter>
+              <SheetClose asChild>
+                <Button type="submit">Create domain</Button>
+              </SheetClose>
+            </SheetFooter>
           </form>
         </Form>
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet>
   );
 }
