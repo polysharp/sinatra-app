@@ -18,7 +18,6 @@ export default async function WorkspaceLayout({
 
       <SidebarInset className="px-3 py-2">
         <AppTopbar>
-          <div />
           <div className="flex items-center justify-center gap-2">
             <div className="h-10" />
           </div>
