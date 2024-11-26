@@ -1,6 +1,8 @@
 export interface Site {
   id: number;
-  domain: string;
-  apiKey: string;
-  status: 'pending' | 'verified';
+  workspaceId: string;
+  domainId: string;
+  apiKeyId: string;
+  createdAt: string;
+  updatedAt: string;
 }

@@ -20,3 +20,12 @@ export const createApiKeySchema = z.object({
 });
 
 export type CreateApiKey = z.infer<typeof createApiKeySchema>;
+
+export const createSiteSchema = z.object({
+  name: z.string().min(2),
+  workspaceId: z.string().cuid2(),
+  domainId: z.string().cuid2(),
+  apiKeyId: z.string().cuid2(),
+});
+
+export type CreateSite = z.infer<typeof createSiteSchema>;

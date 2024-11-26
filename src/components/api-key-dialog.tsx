@@ -59,7 +59,7 @@ export default function CreateApiKeyDialog({
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetContent>
+      <SheetContent className='overflow-y-scroll'>
         <SheetHeader>
           <SheetTitle>Create a new Api Key</SheetTitle>
           <SheetDescription>

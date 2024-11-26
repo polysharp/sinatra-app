@@ -84,7 +84,7 @@ export default function CreateDomainDialog({
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetContent>
+      <SheetContent className='overflow-y-scroll'>
         <SheetHeader>
           <SheetTitle>Add a new domain</SheetTitle>
           <SheetDescription>
@@ -97,7 +97,7 @@ export default function CreateDomainDialog({
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-4 py-4"
-            autoComplete="false"
+            autoComplete="off"
           >
             <FormField
               control={form.control}

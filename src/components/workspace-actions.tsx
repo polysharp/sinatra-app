@@ -96,7 +96,9 @@ export default function WorkspaceActions({
         setOpen={setKeysDialogOpen}
       />
       <SiteDialog
+        workspaceId={workspaceId}
         workspaceDomains={workspaceDomains}
+        workspaceApiKeys={workspaceApiKeys}
         open={siteDialogOpen}
         setOpen={setSiteDialogOpen}
       />

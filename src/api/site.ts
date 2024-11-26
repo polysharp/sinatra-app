@@ -1,12 +1,22 @@
+import { revalidateTag } from 'next/cache';
+
 import { Site } from '@/interfaces';
 
-export async function getSites(): Promise<Site[]> {
-  return Promise.resolve<Site[]>([
-    {
-      id: 0,
-      domain: 'polysharp.fr',
-      apiKey: '0101-abcde-0101',
-      status: 'pending',
+import httpClient from './client';
+import { CreateSite } from './schemas';
+
+export async function createSite(values: CreateSite): Promise<Site> {
+  const response = await httpClient('/sites', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
     },
-  ]);
+    body: JSON.stringify(values),
+  });
+
+  const data = await response.json();
+
+  revalidateTag('sites');
+
+  return data as Site;
 }

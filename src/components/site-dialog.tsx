@@ -1,36 +1,67 @@
 'use client';
 
+import { useForm } from 'react-hook-form';
+
+import { CreateSite, createSite, createSiteSchema } from '@/api';
 import {
   Button,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
   Input,
-  Label,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
 } from '@/components/ui';
-import { Domain, DomainVerificationStatus } from '@/interfaces';
+import { ApiKey, Domain, DomainVerificationStatus } from '@/interfaces';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 export default function CreateSiteDialog({
+  workspaceId,
   workspaceDomains,
+  workspaceApiKeys,
   open,
   setOpen,
 }: {
+  workspaceId: string;
   workspaceDomains: Domain[];
+  workspaceApiKeys: ApiKey[];
   open: boolean;
   setOpen: (open: boolean) => void;
 }) {
+  const form = useForm<CreateSite>({
+    resolver: zodResolver(createSiteSchema),
+    defaultValues: {
+      name: '',
+      workspaceId,
+      domainId: '',
+      apiKeyId: '',
+    },
+  });
+
+  const onSubmit = async (values: CreateSite) => {
+    try {
+      await createSite(values);
+      form.reset();
+      setOpen(false);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetContent>
+      <SheetContent className='overflow-y-scroll'>
         <SheetHeader>
           <SheetTitle>Create a new site</SheetTitle>
           <SheetDescription>
@@ -38,51 +69,98 @@ export default function CreateSiteDialog({
           </SheetDescription>
         </SheetHeader>
 
-        <form className="space-y-4 py-4">
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="name" className="text-right">
-                Name
-              </Label>
-              <Input
-                id="name"
-                defaultValue="Pedro Duarte"
-                className="col-span-3"
-              />
-            </div>
-
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="username" className="text-right">
-                Username
-              </Label>
-              <Select>
-                <SelectTrigger className="col-span-3">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {workspaceDomains.map((domain) => (
-                    <SelectItem
-                      key={domain.id}
-                      value={domain.id}
-                      disabled={
-                        domain.verificationStatus !==
-                        DomainVerificationStatus.VERIFIED
-                      }
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-4 py-4"
+            autoComplete="off"
+          >
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <FormLabel>Name</FormLabel>
+                    <FormControl className="col-span-3">
+                      <Input placeholder="Example Website" {...field} />
+                    </FormControl>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="domainId"
+              render={({ field }) => (
+                <FormItem>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <FormLabel>Domain</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
                     >
-                      {domain.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
+                      <FormControl className="col-span-3">
+                        <SelectTrigger className="col-span-3">
+                          <SelectValue />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {workspaceDomains.map((domain) => (
+                          <SelectItem
+                            key={domain.id}
+                            value={domain.id}
+                            disabled={
+                              domain.verificationStatus !==
+                              DomainVerificationStatus.VERIFIED
+                            }
+                          >
+                            {domain.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="apiKeyId"
+              render={({ field }) => (
+                <FormItem>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <FormLabel>Api Key</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl className="col-span-3">
+                        <SelectTrigger className="col-span-3">
+                          <SelectValue />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {workspaceApiKeys.map((key) => (
+                          <SelectItem key={key.id} value={key.id}>
+                            {key.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <SheetFooter>
-            <SheetClose asChild>
-              <Button type="submit">Save changes</Button>
-            </SheetClose>
-          </SheetFooter>
-        </form>
+            <div className="flex justify-end">
+              <Button type="submit">Create site</Button>
+            </div>
+          </form>
+        </Form>
       </SheetContent>
     </Sheet>
   );
