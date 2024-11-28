@@ -23,19 +23,22 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui';
-import { ApiKey, Domain, DomainVerificationStatus } from '@/interfaces';
+import { ApiKey, Domain, Site } from '@/interfaces';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { domainAlreadyUsed, domainIsNotVerified } from '@/lib';
 
 export default function CreateSiteDialog({
   workspaceId,
   workspaceDomains,
   workspaceApiKeys,
+  workspaceSites,
   open,
   setOpen,
 }: {
   workspaceId: string;
   workspaceDomains: Domain[];
   workspaceApiKeys: ApiKey[];
+  workspaceSites: Site[];
   open: boolean;
   setOpen: (open: boolean) => void;
 }) {
@@ -61,7 +64,7 @@ export default function CreateSiteDialog({
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetContent className='overflow-y-scroll'>
+      <SheetContent className="overflow-y-scroll">
         <SheetHeader>
           <SheetTitle>Create a new site</SheetTitle>
           <SheetDescription>
@@ -112,8 +115,8 @@ export default function CreateSiteDialog({
                             key={domain.id}
                             value={domain.id}
                             disabled={
-                              domain.verificationStatus !==
-                              DomainVerificationStatus.VERIFIED
+                              domainIsNotVerified(domain) ||
+                              domainAlreadyUsed(domain, workspaceSites)
                             }
                           >
                             {domain.name}

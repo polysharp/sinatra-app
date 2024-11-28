@@ -1,3 +1,5 @@
+'use server';
+
 import { revalidateTag } from 'next/cache';
 
 import { Site } from '@/interfaces';
@@ -19,4 +21,19 @@ export async function createSite(values: CreateSite): Promise<Site> {
   revalidateTag('sites');
 
   return data as Site;
+}
+
+export async function getSites(workspaceId: string): Promise<Site[]> {
+  const response = await httpClient(`/sites?workspaceId=${workspaceId}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    next: {
+      tags: ['sites'],
+    },
+  });
+
+  const data = await response.json();
+  return data as Site[];
 }

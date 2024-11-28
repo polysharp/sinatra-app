@@ -3,7 +3,7 @@
 import { AppWindowMac, Globe, Key, Users } from 'lucide-react';
 import { useState } from 'react';
 
-import { ApiKey, Domain } from '@/interfaces';
+import { ApiKey, Domain, Site } from '@/interfaces';
 import { cn } from '@/lib';
 
 import ApiKeyDialog from './api-key-dialog';
@@ -14,10 +14,12 @@ export default function WorkspaceActions({
   workspaceId,
   workspaceDomains,
   workspaceApiKeys,
+  workspaceSites,
 }: {
   workspaceId: string;
   workspaceDomains: Domain[];
   workspaceApiKeys: ApiKey[];
+  workspaceSites: Site[];
 }) {
   const [domainDialogOpen, setDomainDialogOpen] = useState<boolean>(false);
   const [keysDialogOpen, setKeysDialogOpen] = useState<boolean>(false);
@@ -63,11 +65,11 @@ export default function WorkspaceActions({
           <button
             key={action.key}
             onClick={() => action.handler(true)}
-            className="flex h-[72px] items-center gap-4 rounded-lg bg-sidebar p-4 text-sidebar-foreground hover:bg-sidebar-accent"
+            className="flex h-[72px] items-center gap-4 rounded-md bg-sidebar p-4 text-sidebar-foreground transition-colors hover:bg-sidebar-accent"
           >
             <div
               className={cn(
-                'flex-shrink-0 rounded-lg bg-blue-100 p-2',
+                'flex-shrink-0 rounded-sm bg-blue-100 p-2',
                 action.iconColor,
               )}
             >
@@ -99,6 +101,7 @@ export default function WorkspaceActions({
         workspaceId={workspaceId}
         workspaceDomains={workspaceDomains}
         workspaceApiKeys={workspaceApiKeys}
+        workspaceSites={workspaceSites}
         open={siteDialogOpen}
         setOpen={setSiteDialogOpen}
       />

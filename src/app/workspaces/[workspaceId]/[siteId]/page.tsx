@@ -1,4 +1,4 @@
-export default async function Site({
+export default async function SiteWithId({
   params,
 }: {
   params: Promise<{ siteId: string }>;

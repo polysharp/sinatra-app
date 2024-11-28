@@ -1,7 +1,16 @@
-import { getApiKeys, getDomains } from '@/api';
-import { WorkspaceActions } from '@/components';
+import Link from 'next/link';
 
-export default async function Home({
+import { getApiKeys, getDomains, getSites } from '@/api';
+import { WorkspaceActions } from '@/components';
+import {
+  Card,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui';
+
+export default async function WorkspaceWithId({
   params,
 }: {
   params: Promise<{ workspaceId: string }>;
@@ -9,11 +18,13 @@ export default async function Home({
   const workspaceId = (await params).workspaceId;
 
   const domainsPromise = getDomains(workspaceId);
-  const apiKeysPrimise = getApiKeys(workspaceId);
+  const apiKeysPromise = getApiKeys(workspaceId);
+  const sitesPromise = getSites(workspaceId);
 
-  const [domains, apiKeys] = await Promise.all([
+  const [domains, apiKeys, sites] = await Promise.all([
     domainsPromise,
-    apiKeysPrimise,
+    apiKeysPromise,
+    sitesPromise,
   ]);
 
   return (
@@ -22,8 +33,28 @@ export default async function Home({
         workspaceId={workspaceId}
         workspaceDomains={domains}
         workspaceApiKeys={apiKeys}
+        workspaceSites={sites}
       />
-      <h2 className="text-sm">Workspace home page</h2>
+
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
+        {sites.map((site) => (
+          <Link
+            key={site.id}
+            href={`/workspaces/${workspaceId}/${site.id}`}
+            className="rounded-md bg-sidebar text-sidebar-foreground transition-colors hover:bg-sidebar-accent"
+          >
+            <Card className="border-none bg-transparent">
+              <CardHeader>
+                <CardTitle>{site.name}</CardTitle>
+                <CardDescription>{site.createdAt}</CardDescription>
+              </CardHeader>
+              <CardFooter>
+                <p>Card Footer</p>
+              </CardFooter>
+            </Card>
+          </Link>
+        ))}
+      </div>
     </>
   );
 }

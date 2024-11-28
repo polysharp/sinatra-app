@@ -84,7 +84,7 @@ export default function CreateDomainDialog({
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetContent className='overflow-y-scroll'>
+      <SheetContent className="overflow-y-scroll">
         <SheetHeader>
           <SheetTitle>Add a new domain</SheetTitle>
           <SheetDescription>
