@@ -130,7 +130,9 @@ export default function CreateDomainDialog({
               .map((domain) => (
                 <TableRow key={domain.id}>
                   <TableCell className="px-3 py-4">
-                    <Badge variant={'outline'}>{domain.name}</Badge>
+                    <Badge variant={'outline'} className="whitespace-nowrap">
+                      {domain.name}
+                    </Badge>
                   </TableCell>
 
                   <TableCell className="px-3 py-4">

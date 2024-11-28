@@ -59,7 +59,7 @@ export default function CreateApiKeyDialog({
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetContent className='overflow-y-scroll'>
+      <SheetContent className="overflow-y-scroll">
         <SheetHeader>
           <SheetTitle>Create a new Api Key</SheetTitle>
           <SheetDescription>
@@ -120,7 +120,9 @@ export default function CreateApiKeyDialog({
               .map((apiKeys) => (
                 <TableRow key={apiKeys.id}>
                   <TableCell className="px-3 py-4">
-                    <Badge variant={'outline'}>{apiKeys.name}</Badge>
+                    <Badge variant={'outline'} className="whitespace-nowrap">
+                      {apiKeys.name}
+                    </Badge>
                   </TableCell>
                 </TableRow>
               ))}
