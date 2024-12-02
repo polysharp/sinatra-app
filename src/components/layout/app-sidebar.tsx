@@ -2,8 +2,8 @@ import {
   AppWindowMac,
   ChartPie,
   Globe,
+  Key,
   LayoutDashboard,
-  ReceiptText,
   Settings,
   UsersRound,
 } from 'lucide-react';
@@ -15,6 +15,7 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -25,50 +26,54 @@ import { Workspace } from '@/interfaces';
 import { UserMenu, WorkspaceMenu } from './components';
 import UpdagradeCard from './components/upgrade-card';
 
-const navigation = [
-  {
-    tooltip: 'Dashboard',
-    icon: LayoutDashboard,
-    label: 'Dashboard',
-    link: (workspaceId: number) => `/workspaces/${workspaceId}`,
-  },
-  {
-    tooltip: 'Sites',
-    icon: AppWindowMac,
-    label: 'Sites',
-    link: (workspaceId: number) => `/workspaces/${workspaceId}/sites`,
-  },
-  {
-    tooltip: 'Analysis',
-    icon: ChartPie,
-    label: 'Analysis',
-    link: (workspaceId: number) => `/workspaces/${workspaceId}/analysis`,
-  },
-  {
-    tooltip: 'Domains',
-    icon: Globe,
-    label: 'Domains',
-    link: (workspaceId: number) => `/workspaces/${workspaceId}/domains`,
-  },
-  {
-    tooltip: 'Members',
-    icon: UsersRound,
-    label: 'Members',
-    link: (workspaceId: number) => `/workspaces/${workspaceId}/members`,
-  },
-  {
-    tooltip: 'Billings',
-    icon: ReceiptText,
-    label: 'Billings',
-    link: (workspaceId: number) => `/workspaces/${workspaceId}/billings`,
-  },
-  {
-    tooltip: 'Settings',
-    icon: Settings,
-    label: 'Workspace settings',
-    link: (workspaceId: number) => `/workspaces/${workspaceId}/settings`,
-  },
-];
+const navigation = {
+  main: [
+    {
+      tooltip: 'Dashboard',
+      icon: LayoutDashboard,
+      label: 'Dashboard',
+      link: (workspaceId: number) => `/workspaces/${workspaceId}`,
+    },
+    {
+      tooltip: 'Sites',
+      icon: AppWindowMac,
+      label: 'Sites',
+      link: (workspaceId: number) => `/workspaces/${workspaceId}/sites`,
+    },
+    {
+      tooltip: 'Analysis',
+      icon: ChartPie,
+      label: 'Analysis',
+      link: (workspaceId: number) => `/workspaces/${workspaceId}/analysis`,
+    },
+  ],
+  sub: [
+    {
+      tooltip: 'Domains',
+      icon: Globe,
+      label: 'Domains',
+      link: (workspaceId: number) => `/workspaces/${workspaceId}/domains`,
+    },
+    {
+      tooltip: 'Keys',
+      icon: Key,
+      label: 'Keys',
+      link: (workspaceId: number) => `/workspaces/${workspaceId}/keys`,
+    },
+    {
+      tooltip: 'Members',
+      icon: UsersRound,
+      label: 'Members',
+      link: (workspaceId: number) => `/workspaces/${workspaceId}/members`,
+    },
+    {
+      tooltip: 'Settings',
+      icon: Settings,
+      label: 'Settings',
+      link: (workspaceId: number) => `/workspaces/${workspaceId}/settings`,
+    },
+  ],
+};
 
 export default async function AppSidebar({
   workspace,
@@ -83,9 +88,28 @@ export default async function AppSidebar({
 
       <SidebarContent>
         <SidebarGroup>
+          <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {navigation.map((item) => (
+              {navigation.main.map((item) => (
+                <SidebarMenuItem key={item.label}>
+                  <SidebarMenuButton asChild tooltip={item.tooltip}>
+                    <Link href={item.link(workspace.id)}>
+                      <item.icon />
+                      <span>{item.label}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Workspace</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {navigation.sub.map((item) => (
                 <SidebarMenuItem key={item.label}>
                   <SidebarMenuButton asChild tooltip={item.tooltip}>
                     <Link href={item.link(workspace.id)}>
