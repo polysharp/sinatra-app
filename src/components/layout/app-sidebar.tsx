@@ -1,4 +1,12 @@
-import { AppWindowMac, Globe, LayoutDashboard } from 'lucide-react';
+import {
+  AppWindowMac,
+  ChartPie,
+  Globe,
+  LayoutDashboard,
+  ReceiptText,
+  Settings,
+  UsersRound,
+} from 'lucide-react';
 import Link from 'next/link';
 
 import {
@@ -31,10 +39,34 @@ const navigation = [
     link: (workspaceId: number) => `/workspaces/${workspaceId}/sites`,
   },
   {
+    tooltip: 'Analysis',
+    icon: ChartPie,
+    label: 'Analysis',
+    link: (workspaceId: number) => `/workspaces/${workspaceId}/analysis`,
+  },
+  {
     tooltip: 'Domains',
     icon: Globe,
     label: 'Domains',
     link: (workspaceId: number) => `/workspaces/${workspaceId}/domains`,
+  },
+  {
+    tooltip: 'Members',
+    icon: UsersRound,
+    label: 'Members',
+    link: (workspaceId: number) => `/workspaces/${workspaceId}/members`,
+  },
+  {
+    tooltip: 'Billings',
+    icon: ReceiptText,
+    label: 'Billings',
+    link: (workspaceId: number) => `/workspaces/${workspaceId}/billings`,
+  },
+  {
+    tooltip: 'Settings',
+    icon: Settings,
+    label: 'Workspace settings',
+    link: (workspaceId: number) => `/workspaces/${workspaceId}/settings`,
   },
 ];
 
@@ -44,7 +76,7 @@ export default async function AppSidebar({
   workspace: Workspace;
 }) {
   return (
-    <Sidebar collapsible="icon" className="border-sidebar-border">
+    <Sidebar variant="floating" collapsible="icon">
       <SidebarHeader>
         <WorkspaceMenu workspace={workspace} />
       </SidebarHeader>
@@ -52,9 +84,9 @@ export default async function AppSidebar({
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
-            {navigation.map((item) => (
-              <SidebarMenu key={item.label}>
-                <SidebarMenuItem>
+            <SidebarMenu>
+              {navigation.map((item) => (
+                <SidebarMenuItem key={item.label}>
                   <SidebarMenuButton asChild tooltip={item.tooltip}>
                     <Link href={item.link(workspace.id)}>
                       <item.icon />
@@ -62,8 +94,8 @@ export default async function AppSidebar({
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
-              </SidebarMenu>
-            ))}
+              ))}
+            </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
