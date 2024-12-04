@@ -43,7 +43,7 @@ export default async function WorkspaceWithId({
           {sites.map((site) => (
             <Link
               key={site.id}
-              href={`/workspaces/${workspaceId}/${site.id}`}
+              href={`/workspaces/${workspaceId}/sites/${site.id}`}
               className="rounded-md bg-sidebar text-sidebar-foreground transition-colors hover:bg-sidebar-accent"
             >
               <Card className="border-none bg-transparent">
