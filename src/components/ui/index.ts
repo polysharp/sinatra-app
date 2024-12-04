@@ -16,4 +16,6 @@ export * from './sidebar';
 export * from './skeleton';
 export * from './switch';
 export * from './table';
+export * from './toggle-group';
+export * from './toggle';
 export * from './tooltip';

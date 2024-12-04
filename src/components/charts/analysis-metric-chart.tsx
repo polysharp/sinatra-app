@@ -2,9 +2,16 @@
 
 import { PolarAngleAxis, RadialBar, RadialBarChart } from 'recharts';
 
-import { Card, CardContent, ChartContainer } from '@/components/ui';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  ChartContainer,
+} from '@/components/ui';
 
-export default function MetricPieChart({
+export default function AnalysisMetricChart({
   label,
   color,
   value,
@@ -14,20 +21,17 @@ export default function MetricPieChart({
   value: number;
 }) {
   return (
-    <Card className="bg-sidebar" x-chunk="charts-01-chunk-5">
-      <CardContent className="flex flex-col gap-4 p-4">
-        <div className="flex flex-col justify-between gap-0.5 xl:flex-row">
-          <div className="whitespace-nowrap text-sm text-muted-foreground">
-            {label}
-          </div>
-          <div className="flex items-baseline gap-1 whitespace-nowrap text-xl font-bold tabular-nums leading-none">
-            {value}
-            <span className="font-sans text-sm font-normal tracking-normal text-muted-foreground">
-              / 100
-            </span>
-          </div>
-        </div>
-
+    <Card className="bg-sidebar">
+      <CardHeader className="flex items-center justify-between gap-2 space-y-0 border-b py-5 sm:flex-row">
+        <CardTitle className="whitespace-nowrap text-sm">{label}</CardTitle>
+        <CardDescription className="flex items-baseline gap-1 whitespace-nowrap text-xl font-bold tabular-nums leading-none">
+          <span className="text-white">{value}</span>
+          <span className="font-sans text-sm font-normal tracking-normal text-muted-foreground">
+            / 100
+          </span>
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="p-4">
         <ChartContainer
           config={{
             metric: {

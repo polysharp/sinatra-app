@@ -19,15 +19,15 @@ export default function AppBreadcrumb({ paths }: { paths: BreadcrumbProps[] }) {
 
           return !isLast ? (
             <>
-              <BreadcrumbItem>
+              <BreadcrumbItem key={path.label}>
                 <BreadcrumbLink href={path.href}>{path.label}</BreadcrumbLink>
               </BreadcrumbItem>
-              <BreadcrumbSeparator>
+              <BreadcrumbSeparator key={path.label + 'separator'}>
                 <Slash />
               </BreadcrumbSeparator>
             </>
           ) : (
-            <BreadcrumbItem>
+            <BreadcrumbItem key={path.label}>
               <BreadcrumbPage>{path.label}</BreadcrumbPage>
             </BreadcrumbItem>
           );

@@ -1,60 +1,14 @@
+import dayjs from 'dayjs';
+
+import { getLastAnalysis, getRangeAnalysis } from '@/api';
+import { AnalysisMetricChart, AnalysisRangeChart } from '@/components/charts';
 import { AppMain, AppTopbar } from '@/components/layout';
-import MetricAreaChart from '@/components/metric-area-chat';
-import MetricPieChart from '@/components/metric-pie-chart';
-
-const analyses = [
-  {
-    metric: 'Performance',
-    value: 100,
-    fill: 'hsl(var(--chart-1))',
-  },
-  {
-    metric: 'Accessibility',
-    value: 48,
-    fill: 'hsl(var(--chart-2))',
-  },
-  {
-    metric: 'Seo',
-    value: 67,
-    fill: 'hsl(var(--chart-3))',
-  },
-  {
-    metric: 'Best Practices',
-    value: 92,
-    fill: 'hsl(var(--chart-5))',
-  },
-];
-
-const average = [
-  {
-    date: '2024-01-01',
-    score: 90,
-  },
-  {
-    date: '2024-01-02',
-    score: 89,
-  },
-  {
-    date: '2024-01-03',
-    score: 100,
-  },
-  {
-    date: '2024-01-04',
-    score: 72,
-  },
-  {
-    date: '2024-01-05',
-    score: 69,
-  },
-  {
-    date: '2024-01-06',
-    score: 98,
-  },
-  {
-    date: '2024-01-07',
-    score: 95,
-  },
-];
+import {
+  accessibilityConfig,
+  bestPracticesConfig,
+  performanceConfig,
+  seoConfig,
+} from '@/constants';
 
 export default async function SiteWithId({
   params,
@@ -62,6 +16,16 @@ export default async function SiteWithId({
   params: Promise<{ workspaceId: string; siteId: string }>;
 }) {
   const { workspaceId, siteId } = await params;
+
+  const lastAnalysisPromise = getLastAnalysis(workspaceId, siteId);
+  const lastDaysAnalysisPromise = getRangeAnalysis(workspaceId, siteId, {
+    startDate: dayjs().subtract(30, 'days').toISOString(),
+  });
+
+  const [lastAnalysis, lastDaysAnalysis] = await Promise.all([
+    lastAnalysisPromise,
+    lastDaysAnalysisPromise,
+  ]);
 
   return (
     <>
@@ -73,25 +37,59 @@ export default async function SiteWithId({
         ]}
       />
       <AppMain>
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-          {analyses.map((analysis) => (
-            <div key={analysis.metric}>
-              <MetricPieChart
-                label={analysis.metric}
-                color={analysis.fill}
-                value={analysis.value}
-              />
-            </div>
-          ))}
-
-          <div className="col-span-full">
-            <MetricAreaChart
-              label="Score"
-              color="hsl(var(--chart-4))"
-              data={average}
+        {lastAnalysis && (
+          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+            <AnalysisMetricChart
+              label={performanceConfig.label}
+              color={performanceConfig.color}
+              value={lastAnalysis.performance}
+            />
+            <AnalysisMetricChart
+              label={accessibilityConfig.label}
+              color={accessibilityConfig.color}
+              value={lastAnalysis.accessibility}
+            />
+            <AnalysisMetricChart
+              label={seoConfig.label}
+              color={seoConfig.color}
+              value={lastAnalysis.seo}
+            />
+            <AnalysisMetricChart
+              label={bestPracticesConfig.label}
+              color={bestPracticesConfig.color}
+              value={lastAnalysis.bestPractices}
             />
           </div>
-        </div>
+        )}
+
+        {lastDaysAnalysis && (
+          <>
+            <AnalysisRangeChart
+              dataKey="performance"
+              label={performanceConfig.label}
+              color={performanceConfig.color}
+              values={lastDaysAnalysis}
+            />
+            <AnalysisRangeChart
+              dataKey="accessibility"
+              label={accessibilityConfig.label}
+              color={accessibilityConfig.color}
+              values={lastDaysAnalysis}
+            />
+            <AnalysisRangeChart
+              dataKey="seo"
+              label={seoConfig.label}
+              color={seoConfig.color}
+              values={lastDaysAnalysis}
+            />
+            <AnalysisRangeChart
+              dataKey="bestPractices"
+              label={bestPracticesConfig.label}
+              color={bestPracticesConfig.color}
+              values={lastDaysAnalysis}
+            />
+          </>
+        )}
       </AppMain>
     </>
   );
