@@ -10,12 +10,12 @@ export default async function WorkspaceLayout({
   params: Promise<{ workspaceId: string }>;
 }) {
   const workspaceId = (await params).workspaceId;
+
   const workspace = await getWorkspace(workspaceId);
 
   return (
     <SidebarProvider>
       <AppSidebar workspace={workspace} />
-
       <SidebarInset>{children}</SidebarInset>
     </SidebarProvider>
   );

@@ -73,11 +73,9 @@ export default async function SiteWithId({
         ]}
       />
       <AppMain>
-        <h2 className="text-sm">Site {siteId}</h2>
-
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
           {analyses.map((analysis) => (
-            <div key={analysis.metric} className="col-span-1">
+            <div key={analysis.metric}>
               <MetricPieChart
                 label={analysis.metric}
                 color={analysis.fill}
@@ -86,7 +84,7 @@ export default async function SiteWithId({
             </div>
           ))}
 
-          <div className="col-span-4">
+          <div className="col-span-full">
             <MetricAreaChart
               label="Score"
               color="hsl(var(--chart-4))"

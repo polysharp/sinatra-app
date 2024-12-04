@@ -16,7 +16,7 @@ export default function MetricPieChart({
   return (
     <Card className="bg-sidebar" x-chunk="charts-01-chunk-5">
       <CardContent className="flex flex-col gap-4 p-4">
-        <div className="flex flex-col justify-between gap-0.5 md:flex-row">
+        <div className="flex flex-col justify-between gap-0.5 xl:flex-row">
           <div className="whitespace-nowrap text-sm text-muted-foreground">
             {label}
           </div>

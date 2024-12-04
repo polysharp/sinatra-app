@@ -1,4 +1,4 @@
 export interface BreadcrumbProps {
-  label: string;
+  label: 'Workspace' | 'Sites' | 'Site';
   href: string;
 }

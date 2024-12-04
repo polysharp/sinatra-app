@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 import { getApiKeys, getDomains, getSites } from '@/api';
 import { WorkspaceActions } from '@/components';
+import { AppMain, AppTopbar } from '@/components/layout';
 import {
   Card,
   CardDescription,
@@ -9,7 +10,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui';
-import { AppMain, AppTopbar } from '@/components/layout';
 
 export default async function WorkspaceWithId({
   params,
