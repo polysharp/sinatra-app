@@ -8,20 +8,30 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui';
+import { BreadcrumbProps } from '@/interfaces';
 
-export default function AppBreadcrumb() {
+export default function AppBreadcrumb({ paths }: { paths: BreadcrumbProps[] }) {
   return (
     <Breadcrumb>
       <BreadcrumbList>
-        <BreadcrumbItem>
-          <BreadcrumbLink href="/components">Components</BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbSeparator>
-          <Slash />
-        </BreadcrumbSeparator>
-        <BreadcrumbItem>
-          <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
-        </BreadcrumbItem>
+        {paths.map((path, index) => {
+          const isLast = index === paths.length - 1;
+
+          return !isLast ? (
+            <>
+              <BreadcrumbItem>
+                <BreadcrumbLink href={path.href}>{path.label}</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator>
+                <Slash />
+              </BreadcrumbSeparator>
+            </>
+          ) : (
+            <BreadcrumbItem>
+              <BreadcrumbPage>{path.label}</BreadcrumbPage>
+            </BreadcrumbItem>
+          );
+        })}
       </BreadcrumbList>
     </Breadcrumb>
   );

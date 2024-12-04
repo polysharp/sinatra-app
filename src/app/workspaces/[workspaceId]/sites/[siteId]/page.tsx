@@ -59,13 +59,19 @@ const average = [
 export default async function SiteWithId({
   params,
 }: {
-  params: Promise<{ siteId: string }>;
+  params: Promise<{ workspaceId: string; siteId: string }>;
 }) {
-  const { siteId } = await params;
+  const { workspaceId, siteId } = await params;
 
   return (
     <>
-      <AppTopbar />
+      <AppTopbar
+        paths={[
+          { label: 'Workspace', href: `/workspaces/${workspaceId}` },
+          { label: 'Sites', href: `/workspaces/${workspaceId}/sites` },
+          { label: 'Site', href: `/workspaces/${workspaceId}/sites/${siteId}` },
+        ]}
+      />
       <AppMain>
         <h2 className="text-sm">Site {siteId}</h2>
 
