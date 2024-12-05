@@ -1,15 +1,7 @@
-import Link from 'next/link';
-
 import { getApiKeys, getDomains, getSites } from '@/api';
 import { WorkspaceActions } from '@/components';
 import { AppMain, AppTopbar } from '@/components/layout';
-import {
-  Card,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui';
+import SiteCard from '@/components/site-card';
 
 export default async function WorkspaceWithId({
   params,
@@ -41,21 +33,7 @@ export default async function WorkspaceWithId({
 
         <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
           {sites.map((site) => (
-            <Link
-              key={site.id}
-              href={`/workspaces/${workspaceId}/sites/${site.id}`}
-              className="rounded-md bg-sidebar text-sidebar-foreground transition-colors hover:bg-sidebar-accent"
-            >
-              <Card className="border-none bg-transparent">
-                <CardHeader>
-                  <CardTitle>{site.name}</CardTitle>
-                  <CardDescription>{site.createdAt}</CardDescription>
-                </CardHeader>
-                <CardFooter>
-                  <p>Card Footer</p>
-                </CardFooter>
-              </Card>
-            </Link>
+            <SiteCard key={site.id} workspaceId={workspaceId} site={site} />
           ))}
         </div>
       </AppMain>

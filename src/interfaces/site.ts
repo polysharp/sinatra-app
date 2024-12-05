@@ -1,5 +1,5 @@
 export interface Site {
-  id: number;
+  id: string;
   name: string;
   workspaceId: string;
   domainId: string;
