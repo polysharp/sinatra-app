@@ -42,7 +42,7 @@ export default function AnalysisPieChart({
   return (
     <ChartContainer
       config={config}
-      className="mx-auto aspect-square w-full max-w-[80%]"
+      className="mx-auto aspect-square max-h-52 w-full"
     >
       <RadialBarChart
         margin={{

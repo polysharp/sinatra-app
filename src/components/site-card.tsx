@@ -61,8 +61,8 @@ export default async function SiteCard({
       </CardHeader>
 
       {lastAnalysis && (
-        <CardContent className="grid grid-cols-2 gap-4 p-4">
-          <div className="grid grid-cols-2 gap-2">
+        <CardContent className="grid grid-cols-2 gap-4 p-6">
+          <div className="grid grid-cols-2 items-center justify-center gap-2">
             {[
               performanceConfig.ref,
               accessibilityConfig.ref,
