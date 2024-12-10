@@ -41,7 +41,7 @@ const navigation = {
     {
       icon: ChartPie,
       label: 'Analyses',
-      link: (workspaceId: number) => `/workspaces/${workspaceId}/analysis`,
+      link: (workspaceId: number) => `/workspaces/${workspaceId}/analyses`,
     },
   ],
   sub: [
