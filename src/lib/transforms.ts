@@ -1,14 +1,17 @@
-import { DomainVerificationStatus } from '@/interfaces';
+import { AnalysisStatus, DomainVerificationStatus } from '@/interfaces';
 
 export function statusToVariant(
-  domainVerificationStatus: DomainVerificationStatus,
+  status: DomainVerificationStatus | AnalysisStatus,
 ) {
-  switch (domainVerificationStatus) {
+  switch (status) {
     case DomainVerificationStatus.VERIFIED:
+    case AnalysisStatus.SUCCESS:
       return 'sucess';
     case DomainVerificationStatus.PENDING:
+    case AnalysisStatus.PENDING:
       return 'pending';
     case DomainVerificationStatus.FAILED:
+    case AnalysisStatus.FAILED:
       return 'error';
     default:
       return 'default';
