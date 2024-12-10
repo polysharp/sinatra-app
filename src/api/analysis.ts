@@ -1,21 +1,30 @@
 'use server';
 
-import { Analysis } from '@/interfaces';
+import { Analysis, AnalysisStatus } from '@/interfaces';
 import httpClient from './client';
 
 export async function getLastAnalysis(
   workspaceId: string,
-  siteId: string,
+  siteId: string | null,
+  status: AnalysisStatus[] = [AnalysisStatus.SUCCESS],
 ): Promise<Analysis | null> {
-  const response = await httpClient(
-    `/analyses?workspaceId=${workspaceId}&siteId=${siteId}&limit=1`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+  const queryParams = new URLSearchParams({
+    workspaceId: workspaceId,
+    limit: '1',
+  });
+
+  status.forEach((stat) => queryParams.append('status', stat as string));
+
+  if (siteId) {
+    queryParams.append('siteId', siteId);
+  }
+
+  const response = await httpClient(`/analyses?${queryParams.toString()}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
     },
-  );
+  });
 
   const data = (await response.json()) as Analysis[];
 
@@ -24,23 +33,31 @@ export async function getLastAnalysis(
 
 export async function getRangeAnalysis(
   workspaceId: string,
-  siteId: string,
+  siteId: string | null,
   query?: {
+    limit?: number | string;
     startDate?: string;
     endDate?: string;
   },
 ): Promise<Analysis[]> {
-  let url = `/analyses?workspaceId=${workspaceId}&siteId=${siteId}`;
+  const queryParams = new URLSearchParams({
+    workspaceId: workspaceId,
+    limit: `${query?.limit}` || '1',
+  });
+
+  if (siteId) {
+    queryParams.append('siteId', siteId);
+  }
 
   if (query?.startDate) {
-    url += `&startDate=${query.startDate}`;
+    queryParams.append('startDate', query.startDate);
   }
 
   if (query?.endDate) {
-    url += `&endDate=${query.endDate}`;
+    queryParams.append('endDate', query.endDate);
   }
 
-  const response = await httpClient(url, {
+  const response = await httpClient(`/analyses?${queryParams.toString()}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

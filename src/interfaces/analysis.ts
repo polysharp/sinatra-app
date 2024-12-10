@@ -1,3 +1,9 @@
+export enum AnalysisStatus {
+  SUCCESS = 'SUCCESS',
+  PENDING = 'PENDING',
+  FAILED = 'FAILED',
+}
+
 export interface Analysis {
   id: string;
   siteId: string;
@@ -5,7 +11,7 @@ export interface Analysis {
   accessibility: number;
   bestPractices: number;
   seo: number;
-  status: string;
+  status: AnalysisStatus;
   createdAt: string;
   updatedAt: string;
 }
