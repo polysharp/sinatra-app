@@ -14,6 +14,7 @@ export default async function httpClient(
 
   const response = await fetch(`${baseURL}${url}`, {
     ...options,
+    credentials: 'include',
     headers: {
       ...options.headers,
       Authorization: token ? `Bearer ${jwtToken?.value}` : '',

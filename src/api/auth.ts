@@ -26,7 +26,6 @@ export async function createUser(values: Sign): Promise<void> {
   });
 
   const setCookieHeader = response.headers.get('set-cookie');
-  console.log(setCookieHeader);
   if (setCookieHeader) {
     const sessionToken = getCookieValueFromSetCookieHeader(
       'session',
@@ -38,6 +37,7 @@ export async function createUser(values: Sign): Promise<void> {
         name: 'session',
         value: sessionToken,
         domain: 'sinatra.polysharp.fr',
+        maxAge: 2592000,
         sameSite: true,
         httpOnly: true,
         secure: true,

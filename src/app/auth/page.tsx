@@ -35,7 +35,7 @@ export default function SignPage() {
     try {
       await createUser(values);
 
-      window.location.href = 'https://sinatra.polysharp.fr/workspaces';
+      // window.location.href = 'https://sinatra.polysharp.fr/workspaces';
     } catch (err) {
       console.error(err);
     }
