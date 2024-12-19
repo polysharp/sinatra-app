@@ -1,8 +1,8 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 
+import { createUser, Sign, signSchema } from '@/api';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -20,17 +20,9 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import httpClient from '@/lib/http-client';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-const signSchema = z.object({
-  email: z.string().min(2).max(50),
-  password: z.string().min(2).max(50),
-});
-
-export type Sign = z.infer<typeof signSchema>;
-
-export default function Sign() {
+export default function SignPage() {
   const form = useForm<Sign>({
     resolver: zodResolver(signSchema),
     defaultValues: {
@@ -41,10 +33,7 @@ export default function Sign() {
 
   const onSubmit = async (values: Sign) => {
     try {
-      await httpClient('/auth/sign', {
-        method: 'POST',
-        body: JSON.stringify(values),
-      });
+      await createUser(values);
 
       window.location.href = 'https://sinatra.polysharp.fr/workspaces';
     } catch (err) {

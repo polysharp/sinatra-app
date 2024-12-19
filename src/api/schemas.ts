@@ -1,5 +1,12 @@
 import { z } from 'zod';
 
+export const signSchema = z.object({
+  email: z.string().min(2).max(50),
+  password: z.string().min(2).max(50),
+});
+
+export type Sign = z.infer<typeof signSchema>;
+
 export const createWorkspaceSchema = z.object({
   name: z.string().min(2).max(50),
 });
