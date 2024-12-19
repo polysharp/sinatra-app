@@ -23,7 +23,7 @@ import { Input } from '@/components/ui/input';
 import httpClient from '@/lib/http-client';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-export const signSchema = z.object({
+const signSchema = z.object({
   email: z.string().min(2).max(50),
   password: z.string().min(2).max(50),
 });
