@@ -24,7 +24,6 @@ import {
 import { Workspace } from '@/interfaces';
 
 import { UserMenu, WorkspaceMenu } from './components';
-import UpdagradeCard from './components/upgrade-card';
 
 const navigation = {
   main: [
@@ -118,7 +117,6 @@ export default async function AppSidebar({
       </SidebarContent>
 
       <SidebarFooter>
-        <UpdagradeCard />
         <UserMenu
           user={{
             avatar: 'https://github.com/shadcn.png',
