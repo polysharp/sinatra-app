@@ -38,10 +38,10 @@ export default function AnalysisRangeChart({
     const referenceDate = new Date();
 
     let daysToSubtract = 30;
-    if (timeRange === '15') {
+    if (timeRange === '7') {
+      daysToSubtract = 7;
+    } else if (timeRange === '15') {
       daysToSubtract = 15;
-    } else if (timeRange === '30') {
-      daysToSubtract = 30;
     }
     const startDate = new Date(referenceDate);
     startDate.setDate(startDate.getDate() - daysToSubtract);
