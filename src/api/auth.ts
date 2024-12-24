@@ -2,18 +2,10 @@
 
 import { cookies } from 'next/headers';
 
+import { parseCookies } from '@/lib';
+
 import httpClient from './client';
 import { Sign } from './schemas';
-
-function getCookieValueFromSetCookieHeader(
-  cookieName: string,
-  setCookieHeader: string,
-) {
-  const cookieRegex = new RegExp(`(?:^|; )${cookieName}=([^;]*)`);
-  const match = cookieRegex.exec(setCookieHeader);
-
-  return match ? decodeURIComponent(match[1]) : null;
-}
 
 export async function createUser(values: Sign): Promise<void> {
   const cookiesStore = await cookies();
@@ -27,20 +19,14 @@ export async function createUser(values: Sign): Promise<void> {
 
   const setCookieHeader = response.headers.get('set-cookie');
   if (setCookieHeader) {
-    const sessionToken = getCookieValueFromSetCookieHeader(
-      'session',
-      setCookieHeader,
-    );
+    const cookies = parseCookies(setCookieHeader);
+    const sessionCookie = cookies['session'];
 
-    if (sessionToken) {
+    if (sessionCookie) {
       cookiesStore.set({
-        name: 'session',
-        value: sessionToken,
+        ...sessionCookie,
         domain: 'sinatra.polysharp.fr',
-        maxAge: 2592000,
         sameSite: true,
-        httpOnly: true,
-        secure: true,
       });
     }
   }

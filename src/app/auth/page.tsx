@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
 import { createUser, Sign, signSchema } from '@/api';
@@ -23,6 +24,7 @@ import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 export default function SignPage() {
+  const router = useRouter();
   const form = useForm<Sign>({
     resolver: zodResolver(signSchema),
     defaultValues: {
@@ -34,6 +36,8 @@ export default function SignPage() {
   const onSubmit = async (values: Sign) => {
     try {
       await createUser(values);
+
+      router.push('/workspaces');
 
       // window.location.href = 'https://sinatra.polysharp.fr/workspaces';
     } catch (err) {
