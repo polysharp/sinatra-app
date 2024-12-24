@@ -31,13 +31,13 @@ export default function AnalysisRangeChart({
   color: string;
   values: Analysis[];
 }) {
-  const [timeRange, setTimeRange] = useState<string>('7');
+  const [timeRange, setTimeRange] = useState<string>('30');
 
   const filteredData = values.filter((value) => {
     const date = new Date(value.updatedAt);
     const referenceDate = new Date();
 
-    let daysToSubtract = 7;
+    let daysToSubtract = 30;
     if (timeRange === '15') {
       daysToSubtract = 15;
     } else if (timeRange === '30') {

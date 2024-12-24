@@ -42,7 +42,6 @@ export async function getRangeAnalysis(
 ): Promise<Analysis[]> {
   const queryParams = new URLSearchParams({
     workspaceId: workspaceId,
-    limit: `${query?.limit}` || '1',
   });
 
   if (siteId) {
@@ -55,6 +54,10 @@ export async function getRangeAnalysis(
 
   if (query?.endDate) {
     queryParams.append('endDate', query.endDate);
+  }
+
+  if (query?.limit) {
+    queryParams.append('limit', `${query.limit}`);
   }
 
   const response = await httpClient(`/analyses?${queryParams.toString()}`, {
