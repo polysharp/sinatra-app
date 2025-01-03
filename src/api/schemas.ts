@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const signSchema = z.object({
-  email: z.string().min(2).max(50),
+  email: z.string().max(50).email('Email invalid'),
   password: z.string().min(2).max(50),
 });
 

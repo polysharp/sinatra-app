@@ -4,27 +4,28 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
 import { createUser, Sign, signSchema } from '@/api';
-import { Button } from '@/components/ui/button';
+import { Logo } from '@/components';
 import {
+  Button,
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+  Input,
+} from '@/components/ui';
+import { useToast } from '@/hooks/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 export default function SignPage() {
   const router = useRouter();
+  const { toast } = useToast();
   const form = useForm<Sign>({
     resolver: zodResolver(signSchema),
     defaultValues: {
@@ -38,9 +39,11 @@ export default function SignPage() {
       await createUser(values);
 
       router.push('/workspaces');
-
-      // window.location.href = 'https://sinatra.polysharp.fr/workspaces';
     } catch (err) {
+      toast({
+        title: "Oups! Houston, we've had a problem",
+        description: 'Please try again later',
+      });
       console.error(err);
     }
   };
@@ -48,9 +51,14 @@ export default function SignPage() {
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader>
-        <CardTitle className="text-2xl">Login</CardTitle>
+        <div className="flex w-full items-center justify-center pb-4">
+          <div className="flex h-12 w-12 items-center justify-center">
+            <Logo />
+          </div>
+        </div>
+        <CardTitle className="text-2xl">Sign</CardTitle>
         <CardDescription>
-          Enter your email below to login to your account
+          Enter your email and password below to sign to your account
         </CardDescription>
       </CardHeader>
 
@@ -68,7 +76,8 @@ export default function SignPage() {
                       <Input
                         id="email"
                         autoComplete="email"
-                        placeholder="example.com"
+                        placeholder="john@doe.com"
+                        disabled={form.formState.isSubmitting}
                         {...field}
                       />
                     </FormControl>
@@ -91,6 +100,7 @@ export default function SignPage() {
                         type="password"
                         autoComplete="current-password"
                         placeholder="*****"
+                        disabled={form.formState.isSubmitting}
                         {...field}
                       />
                     </FormControl>
@@ -100,7 +110,11 @@ export default function SignPage() {
               )}
             />
 
-            <Button type="submit" className="w-full">
+            <Button
+              type="submit"
+              className="disabled:pointer-events-none"
+              disabled={form.formState.isSubmitting}
+            >
               Login
             </Button>
           </form>

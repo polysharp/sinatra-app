@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 
 import '@/styles/tailwind.css';
+import { Toaster } from '@/components/ui';
 
 export const metadata: Metadata = {
   title: 'Sinatra',
@@ -14,7 +15,10 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <body className="dark">{children}</body>
+      <body className="dark">
+        {children}
+        <Toaster />
+      </body>
     </html>
   );
 }

@@ -1,3 +1,5 @@
+export { default as Logo } from './logo';
+
 export { default as CreateWorkspaceDialog } from './create-workspace-dialog';
 
 export { default as DomainDialog } from './domain-dialog';
